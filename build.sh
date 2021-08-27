@@ -6,7 +6,7 @@ set -o errexit -o pipefail
 
 DEVICE=$1
 
-if [[ $DEVICE != redfin && $DEVICE != bramble && $DEVICE != barbet ]]; then
+if [[ $DEVICE != barbet ]]; then
     echo invalid device codename
     exit 1
 fi
@@ -51,5 +51,6 @@ make -j$(nproc) \
     CROSS_COMPILE=aarch64-linux-gnu- \
     CROSS_COMPILE_COMPAT=arm-linux-gnueabi-
 
-cp out/arch/arm64/boot/{dtbo.img,Image.lz4} "$ROOT_DIR/device/google/${DEVICE}-kernel"
-cp out/arch/arm64/boot/dts/google/qcom-base/lito.dtb "$ROOT_DIR/device/google/${DEVICE}-kernel"
+
+cp out/arch/arm64/boot/{dtbo.img,Image.lz4} "$ROOT_DIR/device/google/barbet-kernel"
+cp out/arch/arm64/boot/dts/google/qcom-base/lito.dtb "$ROOT_DIR/device/google/barbet-kernel"
