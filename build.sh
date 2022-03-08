@@ -6,9 +6,14 @@ set -o errexit -o pipefail
 
 DEVICE=$1
 
-if [[ $DEVICE != redfin && $DEVICE != bramble ]]; then
+if [[ $DEVICE != redfin && $DEVICE != bramble && $DEVICE != barbet ]]; then
     echo invalid device codename
     exit 1
+fi
+
+DEFCONFIG_DEVICE=$DEVICE
+if [[ $DEVICE == barbet ]]; then
+    DEFCONFIG_DEVICE=bramble
 fi
 
 ROOT_DIR=$(realpath ../../..)
@@ -37,7 +42,7 @@ make \
     CLANG_TRIPLE=aarch64-linux-gnu- \
     CROSS_COMPILE=aarch64-linux-gnu- \
     CROSS_COMPILE_COMPAT=arm-linux-gnueabi- \
-    ${DEVICE}_defconfig
+    ${DEFCONFIG_DEVICE}_defconfig
 
 make -j$(nproc) \
     O=out \
